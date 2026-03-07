@@ -4,6 +4,10 @@ import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.service.AppointmentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {
@@ -32,5 +36,12 @@ public class AppointmentController {
                 java.time.LocalDate.parse(date),
                 java.time.LocalTime.parse(time)
         );
+    }
+    @GetMapping("/available")
+    public List<LocalTime> getAvailableTimes(@RequestParam String date) {
+
+        LocalDate parsedDate = LocalDate.parse(date);
+
+        return appointmentService.getAvailableTimes(parsedDate);
     }
 }

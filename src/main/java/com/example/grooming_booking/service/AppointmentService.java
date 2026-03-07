@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 public class AppointmentService {
@@ -39,6 +40,10 @@ public class AppointmentService {
             LocalTime time
     ) {
 
+        if (appointmentRepository.existsByDateAndTime(date, time)) {
+            throw new RuntimeException("This time slot is already booked");
+        }
+
         GroomingService service = serviceRepository.findById(serviceId)
                 .orElseThrow(() -> new RuntimeException("Service not found"));
 
@@ -56,5 +61,29 @@ public class AppointmentService {
         appointment.setTime(time);
 
         return appointmentRepository.save(appointment);
+    }
+    public List<LocalTime> getAvailableTimes(LocalDate date) {
+
+        List<LocalTime> workingHours = List.of(
+                LocalTime.of(9,0),
+                LocalTime.of(10,0),
+                LocalTime.of(11,0),
+                LocalTime.of(12,0),
+                LocalTime.of(13,0),
+                LocalTime.of(14,0),
+                LocalTime.of(15,0),
+                LocalTime.of(16,0),
+                LocalTime.of(17,0)
+        );
+
+        List<Appointment> appointments = appointmentRepository.findByDate(date);
+
+        List<LocalTime> bookedTimes = appointments.stream()
+                .map(Appointment::getTime)
+                .toList();
+
+        return workingHours.stream()
+                .filter(time -> !bookedTimes.contains(time))
+                .toList();
     }
 }
