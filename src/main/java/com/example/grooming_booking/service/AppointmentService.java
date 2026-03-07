@@ -1,16 +1,19 @@
 package com.example.grooming_booking.service;
-import com.example.grooming_booking.entity.GroomingService;
+
 import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.entity.Customer;
 import com.example.grooming_booking.entity.GroomingService;
+
 import com.example.grooming_booking.repository.AppointmentRepository;
 import com.example.grooming_booking.repository.CustomerRepository;
 import com.example.grooming_booking.repository.ServiceRepository;
 
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@GroomingService
+@Service
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;

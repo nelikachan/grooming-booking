@@ -24,6 +24,10 @@ public class Appointment {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "dog_id")
+    private Dog dog;
+
     public Appointment() {
     }
 
