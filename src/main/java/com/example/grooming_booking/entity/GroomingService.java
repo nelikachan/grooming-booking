@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "services")
-public class Service {
+public class GroomingService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class Service {
 
     private Double price;
 
-    public Service() {
+    public GroomingService() {
     }
 
     public Long getId() {
@@ -56,4 +56,5 @@ public class Service {
     public void setPrice(Double price) {
         this.price = price;
     }
+
 }

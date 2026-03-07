@@ -17,11 +17,11 @@ public class Appointment {
     private LocalTime time;
 
     @ManyToOne
-    @JoinColumn(name = "service_id")
-    private Service service;
+    @JoinColumn(name = "service_id",nullable = false)
+    private GroomingService service;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     public Appointment() {
@@ -39,7 +39,7 @@ public class Appointment {
         return time;
     }
 
-    public Service getService() {
+    public GroomingService getService() {
         return service;
     }
 
@@ -55,7 +55,7 @@ public class Appointment {
         this.time = time;
     }
 
-    public void setService(Service service) {
+    public void setService(GroomingService service) {
         this.service = service;
     }
 
