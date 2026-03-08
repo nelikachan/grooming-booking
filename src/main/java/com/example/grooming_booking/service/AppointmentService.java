@@ -20,15 +20,18 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final ServiceRepository serviceRepository;
     private final CustomerRepository customerRepository;
+    private final EmailService emailService;
 
     public AppointmentService(
             AppointmentRepository appointmentRepository,
             ServiceRepository serviceRepository,
-            CustomerRepository customerRepository) {
+            CustomerRepository customerRepository,
+            EmailService emailService) {
 
         this.appointmentRepository = appointmentRepository;
         this.serviceRepository = serviceRepository;
         this.customerRepository = customerRepository;
+        this.emailService = emailService;
     }
 
     public Appointment createAppointment(
@@ -60,7 +63,16 @@ public class AppointmentService {
         appointment.setDate(date);
         appointment.setTime(time);
 
-        return appointmentRepository.save(appointment);
+        Appointment savedAppointment = appointmentRepository.save(appointment);
+
+        emailService.sendAppointmentConfirmation(
+                email,
+                date.toString(),
+                time.toString(),
+                service.getName()
+        );
+
+        return savedAppointment;
     }
     public List<LocalTime> getAvailableTimes(LocalDate date) {
 
@@ -86,4 +98,7 @@ public class AppointmentService {
                 .filter(time -> !bookedTimes.contains(time))
                 .toList();
     }
+
+
+
 }
