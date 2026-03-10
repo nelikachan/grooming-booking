@@ -16,7 +16,11 @@ public class GroomingService {
 
     private Integer durationMinutes;
 
-    private Double price;
+    @Column(name = "price_min")
+    private Double priceMin;
+
+    @Column(name = "price_max")
+    private Double priceMax;
 
     public GroomingService() {
     }

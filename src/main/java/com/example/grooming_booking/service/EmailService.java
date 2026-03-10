@@ -17,14 +17,15 @@ public class EmailService {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setSubject("Potwierdzenie wizyty - Salon Groomerski");
+        message.setSubject("Potwierdzenie wizyty - Salon Groomerski Łapka & Nożyczki");
 
         message.setText(
-                "Twoja wizyta została zarezerwowana.\n\n" +
+                "Informujemy, że Twoja wizyta została zarezerwowana.\n\n" +
                         "Data: " + date + "\n" +
                         "Godzina: " + time + "\n" +
                         "Usługa: " + service + "\n\n" +
                         "Do zobaczenia w salonie!"
+
         );
 
         mailSender.send(message);
