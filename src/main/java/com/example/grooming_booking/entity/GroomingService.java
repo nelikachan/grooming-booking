@@ -14,6 +14,7 @@ public class GroomingService {
 
     private String description;
 
+    @Column(name = "duration_minutes")
     private Integer durationMinutes;
 
     @Column(name = "price_min")
@@ -41,8 +42,12 @@ public class GroomingService {
         return durationMinutes;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getPriceMin() {
+        return priceMin;
+    }
+
+    public Double getPriceMax() {
+        return priceMax;
     }
 
     public void setName(String name) {
@@ -57,8 +62,11 @@ public class GroomingService {
         this.durationMinutes = durationMinutes;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPriceMin(Double priceMin) {
+        this.priceMin = priceMin;
     }
 
+    public void setPriceMax(Double priceMax) {
+        this.priceMax = priceMax;
+    }
 }
