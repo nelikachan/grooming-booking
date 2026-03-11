@@ -98,6 +98,13 @@ public class AppointmentService {
                 .filter(time -> !bookedTimes.contains(time))
                 .toList();
     }
+    public void cancelAppointment(Long id) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        appointmentRepository.delete(appointment);
+    }
 
 
 

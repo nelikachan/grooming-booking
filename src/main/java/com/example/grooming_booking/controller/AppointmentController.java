@@ -38,4 +38,9 @@ public class AppointmentController {
 
         return appointmentService.getAvailableTimes(parsedDate);
     }
+    @DeleteMapping("/{id}")
+    public void cancelAppointment(@PathVariable Long id) {
+        appointmentService.cancelAppointment(id);
+    }
+
 }
