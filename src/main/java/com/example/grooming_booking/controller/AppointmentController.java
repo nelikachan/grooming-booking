@@ -1,5 +1,6 @@
 package com.example.grooming_booking.controller;
 
+import com.example.grooming_booking.dto.CreateAppointmentRequest;
 import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.service.AppointmentService;
 import org.springframework.web.bind.annotation.*;
@@ -19,22 +20,15 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public Appointment createAppointment(
-            @RequestParam Long serviceId,
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String phone,
-            @RequestParam String date,
-            @RequestParam String time
-    ) {
+    public Appointment createAppointment(@RequestBody CreateAppointmentRequest request) {
 
         return appointmentService.createAppointment(
-                serviceId,
-                name,
-                email,
-                phone,
-                java.time.LocalDate.parse(date),
-                java.time.LocalTime.parse(time)
+                request.getServiceId(),
+                request.getName(),
+                request.getEmail(),
+                request.getPhone(),
+                request.getDate(),
+                request.getTime()
         );
     }
     @GetMapping("/available")
