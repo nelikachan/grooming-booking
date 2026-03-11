@@ -43,4 +43,20 @@ public class AppointmentController {
         appointmentService.cancelAppointment(id);
     }
 
+    @PutMapping("/{id}")
+    public Appointment updateAppointment(
+            @PathVariable Long id,
+            @RequestParam Long serviceId,
+            @RequestParam String date,
+            @RequestParam String time
+    ) {
+
+        return appointmentService.updateAppointment(
+                id,
+                serviceId,
+                LocalDate.parse(date),
+                LocalTime.parse(time)
+        );
+    }
+
 }

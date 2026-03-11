@@ -105,6 +105,29 @@ public class AppointmentService {
 
         appointmentRepository.delete(appointment);
     }
+    public Appointment updateAppointment(
+            Long id,
+            Long serviceId,
+            LocalDate date,
+            LocalTime time
+    ) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        if (appointmentRepository.existsByDateAndTime(date, time)) {
+            throw new RuntimeException("This time slot is already booked");
+        }
+
+        GroomingService service = serviceRepository.findById(serviceId)
+                .orElseThrow(() -> new RuntimeException("Service not found"));
+
+        appointment.setDate(date);
+        appointment.setTime(time);
+        appointment.setService(service);
+
+        return appointmentRepository.save(appointment);
+    }
 
 
 
