@@ -20,16 +20,21 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public Appointment createAppointment(@RequestBody CreateAppointmentRequest request) {
-
+    public Appointment createAppointment(
+            @RequestParam Long serviceId,
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String phone,
+            @RequestParam String date,
+            @RequestParam String time
+    ){
         return appointmentService.createAppointment(
-                request.getServiceId(),
-                request.getName(),
-                request.getEmail(),
-                request.getPhone(),
-                request.getDate(),
-                request.getTime()
-        );
+                serviceId,
+                name,
+                email,
+                phone,
+                java.time.LocalDate.parse(date),
+                java.time.LocalTime.parse(time));
     }
     @GetMapping("/available")
     public List<LocalTime> getAvailableTimes(@RequestParam String date) {

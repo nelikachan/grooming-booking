@@ -24,8 +24,40 @@ public class EmailService {
                         "Data: " + date + "\n" +
                         "Godzina: " + time + "\n" +
                         "Usługa: " + service + "\n\n" +
-                        "Do zobaczenia w salonie!"
+                        "Dziękujemy! Do zobaczenia w salonie!"
 
+        );
+
+        mailSender.send(message);
+    }
+    public void sendAppointmentUpdated(String to, String date, String time, String service) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Zmiana wizyty - Salon Groomerski Łapka & Nożyczki");
+
+        message.setText(
+                "Twoja wizyta została zmieniona.\n\n" +
+                        "Nowa data: " + date + "\n" +
+                        "Nowa godzina: " + time + "\n" +
+                        "Usługa: " + service + "\n\n" +
+                        "Do zobaczenia w salonie!"
+        );
+
+        mailSender.send(message);
+    }
+    public void sendAppointmentCancelled(String to, String date, String time, String service) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Anulowanie wizyty - Salon Groomerski Łapka & Nożyczki");
+
+        message.setText(
+                "Twoja wizyta została anulowana.\n\n" +
+                        "Data: " + date + "\n" +
+                        "Godzina: " + time + "\n" +
+                        "Usługa: " + service + "\n\n" +
+                        "Jeśli chcesz zarezerwować nowy termin zapraszamy ponownie!"
         );
 
         mailSender.send(message);

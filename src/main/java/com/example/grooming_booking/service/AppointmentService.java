@@ -74,6 +74,7 @@ public class AppointmentService {
 
         return savedAppointment;
     }
+
     public List<LocalTime> getAvailableTimes(LocalDate date) {
 
         List<LocalTime> workingHours = List.of(
@@ -98,13 +99,22 @@ public class AppointmentService {
                 .filter(time -> !bookedTimes.contains(time))
                 .toList();
     }
+
     public void cancelAppointment(Long id) {
 
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
+        String email = appointment.getCustomer().getEmail();
+        String date = appointment.getDate().toString();
+        String time = appointment.getTime().toString();
+        String service = appointment.getService().getName();
+
         appointmentRepository.delete(appointment);
+
+        emailService.sendAppointmentCancelled(email, date, time, service);
     }
+
     public Appointment updateAppointment(
             Long id,
             Long serviceId,
@@ -126,9 +136,15 @@ public class AppointmentService {
         appointment.setTime(time);
         appointment.setService(service);
 
-        return appointmentRepository.save(appointment);
+        Appointment updatedAppointment = appointmentRepository.save(appointment);
+
+        emailService.sendAppointmentUpdated(
+                appointment.getCustomer().getEmail(),
+                date.toString(),
+                time.toString(),
+                service.getName()
+        );
+
+        return updatedAppointment;
     }
-
-
-
 }
