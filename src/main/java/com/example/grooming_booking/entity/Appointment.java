@@ -1,23 +1,26 @@
 package com.example.grooming_booking.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "appointments")
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
     private LocalDate date;
-
     private LocalTime time;
 
     @ManyToOne
-    @JoinColumn(name = "service_id",nullable = false)
+    @JoinColumn(name = "service_id", nullable = false)
     private GroomingService service;
 
     @ManyToOne
@@ -31,7 +34,7 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

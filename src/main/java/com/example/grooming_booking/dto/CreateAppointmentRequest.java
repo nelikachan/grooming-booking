@@ -2,17 +2,18 @@ package com.example.grooming_booking.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 public class CreateAppointmentRequest {
 
-    private Long serviceId;
+    private UUID serviceId;
     private String name;
     private String email;
     private String phone;
     private LocalDate date;
     private LocalTime time;
 
-    public Long getServiceId() { return serviceId; }
+    public UUID getServiceId() { return serviceId; }
     public String getName() { return name; }
     public String getEmail() { return email; }
     public String getPhone() { return phone; }

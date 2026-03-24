@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/appointments")
@@ -20,42 +21,35 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public Appointment createAppointment(
-            @RequestParam Long serviceId,
-            @RequestParam String name,
-            @RequestParam String email,
-            @RequestParam String phone,
-            @RequestParam String date,
-            @RequestParam String time
-    ){
+    public Appointment createAppointment(@RequestBody CreateAppointmentRequest request) {
         return appointmentService.createAppointment(
-                serviceId,
-                name,
-                email,
-                phone,
-                java.time.LocalDate.parse(date),
-                java.time.LocalTime.parse(time));
+                request.getServiceId(),
+                request.getName(),
+                request.getEmail(),
+                request.getPhone(),
+                request.getDate(),
+                request.getTime()
+        );
     }
+
     @GetMapping("/available")
     public List<LocalTime> getAvailableTimes(@RequestParam String date) {
-
         LocalDate parsedDate = LocalDate.parse(date);
-
         return appointmentService.getAvailableTimes(parsedDate);
     }
+
     @DeleteMapping("/{id}")
-    public void cancelAppointment(@PathVariable Long id) {
+    public void cancelAppointment(@PathVariable UUID id) {
         appointmentService.cancelAppointment(id);
     }
 
     @PutMapping("/{id}")
     public Appointment updateAppointment(
-            @PathVariable Long id,
-            @RequestParam Long serviceId,
+            @PathVariable UUID id,
+            @RequestParam UUID serviceId,
             @RequestParam String date,
             @RequestParam String time
     ) {
-
         return appointmentService.updateAppointment(
                 id,
                 serviceId,
@@ -63,5 +57,4 @@ public class AppointmentController {
                 LocalTime.parse(time)
         );
     }
-
 }

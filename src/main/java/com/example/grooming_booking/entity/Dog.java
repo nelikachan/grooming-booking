@@ -1,13 +1,18 @@
 package com.example.grooming_booking.entity;
+
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "dogs")
 public class Dog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
     private String name;
     private String breed;
@@ -20,7 +25,7 @@ public class Dog {
 
     public Dog() {}
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

@@ -3,16 +3,15 @@ package com.example.grooming_booking.service;
 import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.entity.Customer;
 import com.example.grooming_booking.entity.GroomingService;
-
 import com.example.grooming_booking.repository.AppointmentRepository;
 import com.example.grooming_booking.repository.CustomerRepository;
 import com.example.grooming_booking.repository.ServiceRepository;
-
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AppointmentService {
@@ -35,13 +34,18 @@ public class AppointmentService {
     }
 
     public Appointment createAppointment(
-            Long serviceId,
+            UUID serviceId,
             String name,
             String email,
             String phone,
             LocalDate date,
             LocalTime time
     ) {
+        if (date.isBefore(LocalDate.now()) ||
+                (date.equals(LocalDate.now()) && time.isBefore(LocalTime.now()))) {
+
+            throw new RuntimeException("Cannot book appointment in the past");
+        }
 
         if (appointmentRepository.existsByDateAndTime(date, time)) {
             throw new RuntimeException("This time slot is already booked");
@@ -50,12 +54,14 @@ public class AppointmentService {
         GroomingService service = serviceRepository.findById(serviceId)
                 .orElseThrow(() -> new RuntimeException("Service not found"));
 
-        Customer customer = new Customer();
-        customer.setName(name);
-        customer.setEmail(email);
-        customer.setPhone(phone);
-
-        customerRepository.save(customer);
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseGet(() -> {
+                    Customer newCustomer = new Customer();
+                    newCustomer.setName(name);
+                    newCustomer.setEmail(email);
+                    newCustomer.setPhone(phone);
+                    return customerRepository.save(newCustomer);
+                });
 
         Appointment appointment = new Appointment();
         appointment.setService(service);
@@ -100,7 +106,7 @@ public class AppointmentService {
                 .toList();
     }
 
-    public void cancelAppointment(Long id) {
+    public void cancelAppointment(UUID id) {
 
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
@@ -116,14 +122,19 @@ public class AppointmentService {
     }
 
     public Appointment updateAppointment(
-            Long id,
-            Long serviceId,
+            UUID id,
+            UUID serviceId,
             LocalDate date,
             LocalTime time
     ) {
 
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        if (date.isBefore(LocalDate.now()) ||
+                (date.equals(LocalDate.now()) && time.isBefore(LocalTime.now()))) {
+
+            throw new RuntimeException("Cannot book appointment in the past");
+        }
 
         if (appointmentRepository.existsByDateAndTime(date, time)) {
             throw new RuntimeException("This time slot is already booked");
