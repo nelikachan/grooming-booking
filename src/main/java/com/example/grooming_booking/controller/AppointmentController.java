@@ -3,6 +3,7 @@ package com.example.grooming_booking.controller;
 import com.example.grooming_booking.dto.CreateAppointmentRequest;
 import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.service.AppointmentService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@Controller
 @RequestMapping("/appointments")
 public class AppointmentController {
 
@@ -21,6 +22,7 @@ public class AppointmentController {
     }
 
     @PostMapping
+    @ResponseBody
     public Appointment createAppointment(@RequestBody CreateAppointmentRequest request) {
         return appointmentService.createAppointment(
                 request.getServiceId(),
@@ -33,17 +35,20 @@ public class AppointmentController {
     }
 
     @GetMapping("/available")
+    @ResponseBody
     public List<LocalTime> getAvailableTimes(@RequestParam String date) {
         LocalDate parsedDate = LocalDate.parse(date);
         return appointmentService.getAvailableTimes(parsedDate);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseBody
     public void cancelAppointment(@PathVariable UUID id) {
         appointmentService.cancelAppointment(id);
     }
 
     @PutMapping("/{id}")
+    @ResponseBody
     public Appointment updateAppointment(
             @PathVariable UUID id,
             @RequestParam UUID serviceId,
@@ -57,4 +62,14 @@ public class AppointmentController {
                 LocalTime.parse(time)
         );
     }
+    @GetMapping("/cancel")
+    public String cancelByToken(@RequestParam String token) {
+
+        Appointment appointment = appointmentService.findByToken(token);
+
+        appointmentService.cancelAppointment(appointment.getId());
+
+        return "redirect:/cancel.html";
+    }
+
 }

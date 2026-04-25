@@ -31,6 +31,9 @@ public class Appointment {
     @JoinColumn(name = "dog_id")
     private Dog dog;
 
+    @Column(unique = true)
+    private String confirmationToken;
+
     public Appointment() {
     }
 
@@ -68,5 +71,12 @@ public class Appointment {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
+
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
     }
 }

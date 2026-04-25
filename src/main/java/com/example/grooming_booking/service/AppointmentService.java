@@ -7,7 +7,7 @@ import com.example.grooming_booking.repository.AppointmentRepository;
 import com.example.grooming_booking.repository.CustomerRepository;
 import com.example.grooming_booking.repository.ServiceRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,7 +15,8 @@ import java.util.UUID;
 
 @Service
 public class AppointmentService {
-
+    @Value("${app.base-url}")
+    private String baseUrl;
     private final AppointmentRepository appointmentRepository;
     private final ServiceRepository serviceRepository;
     private final CustomerRepository customerRepository;
@@ -64,18 +65,24 @@ public class AppointmentService {
                 });
 
         Appointment appointment = new Appointment();
+        appointment.setConfirmationToken(UUID.randomUUID().toString());
         appointment.setService(service);
         appointment.setCustomer(customer);
         appointment.setDate(date);
         appointment.setTime(time);
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
+        String token = savedAppointment.getConfirmationToken();
+        String cancelLink = baseUrl + "/appointments/cancel?token=" + token;
+        String editLink = baseUrl + "/appointments/edit?token=" + token;
 
         emailService.sendAppointmentConfirmation(
                 email,
                 date.toString(),
                 time.toString(),
-                service.getName()
+                service.getName(),
+                cancelLink,
+                editLink
         );
 
         return savedAppointment;
@@ -156,6 +163,9 @@ public class AppointmentService {
                 service.getName()
         );
 
-        return updatedAppointment;
+        return updatedAppointment;}
+    public Appointment findByToken(String token) {
+        return appointmentRepository.findByConfirmationToken(token)
+                .orElseThrow(() -> new RuntimeException("Invalid token"));
     }
 }

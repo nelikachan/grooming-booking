@@ -13,23 +13,35 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendAppointmentConfirmation(String to, String date, String time, String service) {
+    public void sendAppointmentConfirmation(
+            String to,
+            String date,
+            String time,
+            String service,
+            String cancelLink,
+            String editLink
+    ) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("Potwierdzenie wizyty - Salon Groomerski Łapka & Nożyczki");
 
         message.setText(
-                "Informujemy, że Twoja wizyta została zarezerwowana.\n\n" +
+                "Twoja wizyta została zarezerwowana.\n\n" +
                         "Data: " + date + "\n" +
                         "Godzina: " + time + "\n" +
                         "Usługa: " + service + "\n\n" +
-                        "Dziękujemy! Do zobaczenia w salonie!"
 
+                        "Zarządzaj wizytą:\n" +
+                        "Anuluj: " + cancelLink + "\n" +
+//                        "Zmień: " + editLink + "\n\n" +
+
+                        "Dziękujemy!"
         );
 
         mailSender.send(message);
     }
+
     public void sendAppointmentUpdated(String to, String date, String time, String service) {
 
         SimpleMailMessage message = new SimpleMailMessage();
@@ -46,6 +58,7 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
     public void sendAppointmentCancelled(String to, String date, String time, String service) {
 
         SimpleMailMessage message = new SimpleMailMessage();
