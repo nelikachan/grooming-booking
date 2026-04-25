@@ -3,6 +3,19 @@
 A web-based appointment booking system for a grooming salon, built with a modern full-stack approach. The application enables customers to conveniently schedule, manage, and cancel appointments, while ensuring data consistency and a smooth booking experience.
 
 
+## Live demo
+
+The app is available online:
+
+https://grooming-booking.onrender.com/
+
+### Features:
+- Online booking
+- Select date and time
+- Email confirmation
+- Cancel booking
+
+
 ## Tech stack
 
 **Backend**
