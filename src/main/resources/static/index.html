@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Groomerski Łapka & Nożyczki</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <nav class="nav container">
+        <div class="logo"> Łapka&Nożyczki</div>
+
+        <button class="hamburger" id="hamburger">☰</button>
+
+        <ul class="nav-menu" id="menu">
+            <li><a href="#home">Start</a></li>
+            <li><a href="#services">Usługi</a></li>
+            <li><a href="#about">O nas</a></li>
+            <li><a href="#pricing">Cennik</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section id="home" class="hero-full">
+        <div class="hero-overlay">
+            <div class="hero-content container">
+                <h1>Profesjonalna pielęgnacja Twojego pupila</h1>
+                <p>Dbamy o komfort i wygląd Twojego zwierzaka</p>
+                <a href="/booking.html" class="btn">Umów wizytę</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services container">
+        <h2>Usługi</h2>
+
+        <div class="scroll-wrapper">
+
+            <button class="scroll-btn left" onclick="scrollLeft()">❮</button>
+
+            <div class="services-scroll">
+
+                <div class="card">
+                    <img src="images/dog1.jpg" alt="Mały pies po pielęgnacji">
+                    <h3>Krótkowłosy mały pies</h3>
+                    <p>Kąpiel + wyczesanie</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog7.webp" alt="Mały pies po pielęgnacji">
+                    <h3>Krótkowłosy średni pies</h3>
+                    <p>Kąpiel + wyczesanie</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog88.jpg" alt="Mały pies po pielęgnacji">
+                    <h3>Krótkowłosy duży pies</h3>
+                    <p>Kąpiel + wyczesanie</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog90.jpg" alt="Mały pies po pielęgnacji">
+                    <h3>Usuwanie kołtunów</h3>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog789.avif" alt="Mały pies po pielęgnacji">
+                    <h3>Obcinanie pazurów</h3>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog167.jpg" alt="Mały pies po pielęgnacji">
+                    <h3>Pielęgnacja włosa</h3>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog56.jpg" alt="Mały pies po pielęgnacji">
+                    <h3>Usuwanie kleszczy</h3>
+                </div>
+
+                <div class="card">
+                    <img src="images/dog51.jpg" alt="Mały pies po pielęgnacji">
+                    <h3>Higiena oczu i uszu</h3>
+                </div>
+
+            </div>
+
+            <button class="scroll-btn right" onclick="scrollRight()">❯</button>
+
+        </div>
+    </section>
+
+    <section id="about" class="about container">
+        <h2>O nas</h2>
+
+        <div class="about-wrapper">
+
+            <div class="about-text">
+                <h3>Profesjonalna opieka i pasja</h3>
+
+                <p>
+                    W salonie Łapka & Nożyczki dbamy nie tylko o wygląd,
+                    ale przede wszystkim o komfort i bezpieczeństwo Twojego pupila.
+                </p>
+
+                <p>
+                    Pracujemy z psami różnych ras i temperamentów,
+                    stosując indywidualne podejście do każdego zwierzaka.
+                </p>
+
+                <p>
+                    Korzystamy z profesjonalnych kosmetyków oraz sprzętu,
+                    a nasze umiejętności potwierdzają liczne szkolenia i certyfikaty.
+                </p>
+
+                <div class="about-features">
+                    <div>✔ Indywidualne podejście</div>
+                    <div>✔ Bezpieczne kosmetyki</div>
+                    <div>✔ Certyfikowani groomerzy</div>
+                </div>
+
+                <a href="/booking.html" class="btn">Umów wizytę</a>
+            </div>
+
+            <div class="about-gallery">
+                <img src="images/szkolenie.jpg" alt="Grooming pies 1">
+                <img src="images/szkolenie_2.jpg" alt="Grooming pies 2">
+                <img src="images/szkolenie3.jpg" alt="Grooming pies 3">
+                <img src="images/szkolenie4.jpg" alt="Certyfikat 1">
+                <img src="images/szkolenie5.jpg" alt="Certyfikat 2">
+                <img src="images/szkolenie7.jpg" alt="Certyfikat 2">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing container">
+        <h2>Cennik</h2>
+
+        <div class="pricing-grid">
+
+            <div class="price-card">
+                <h3>Krótkowłosy mały pies</h3>
+                <p>Kąpiel + wyczesanie</p>
+                <span>120 zł</span>
+                <small>~60 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Krótkowłosy średni pies</h3>
+                <p>Kąpiel + wyczesanie</p>
+                <span>130–200 zł</span>
+                <small>~90 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Krótkowłosy duży pies</h3>
+                <p>Kąpiel + wyczesanie</p>
+                <span>od 130 zł</span>
+                <small>~120 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Usuwanie kołtunów</h3>
+                <span>od 20 zł</span>
+                <small>~5 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Obcinanie pazurów</h3>
+                <span>od 20 zł</span>
+                <small>~5 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Odbudowa i pielęgnacja</h3>
+                <span>od 50 zł</span>
+                <small>~5 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Usuwanie kleszczy</h3>
+                <span>50 zł</span>
+                <small>~30 min</small>
+            </div>
+
+            <div class="price-card">
+                <h3>Higiena oczu i uszu</h3>
+                <span>50 zł</span>
+                <small>~30 min</small>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="contact container">
+        <h2>Kontakt</h2>
+
+        <div class="contact-grid">
+
+            <div class="contact-info">
+                <p><strong>Email:</strong> kachan.nelli31@gmail.com</p>
+                <p><strong>Telefon:</strong> +48 123 456 789</p>
+                <p><strong>Adres:</strong> Lublin, Al. Racławickie 14</p>
+            </div>
+
+            <div class="map">
+                <iframe
+                        src="https://www.google.com/maps?q=Lublin+Al.+Racławickie+14&output=embed"
+                        width="100%"
+                        height="300"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy">
+                </iframe>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>© 2026 Grooming Studio</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
