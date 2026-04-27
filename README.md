@@ -131,3 +131,8 @@ DELETE /appointments/{token}        → cancel appointment via token
 * SMS notifications
 * Payment integration
 
+## PostgreSQL
+<img width="604" height="429" alt="db1" src="https://github.com/user-attachments/assets/53671120-b24b-4932-8e22-796df8ad1813" />
+<img width="952" height="393" alt="db2" src="https://github.com/user-attachments/assets/2d4b3519-af55-432e-a529-aff6644c54fd" />
+
+
