@@ -5,7 +5,9 @@ A web-based appointment booking system for a grooming salon, built with a modern
 
 ## Live demo
 
-The app is available online:
+This project uses private environment variables (database and email), so it may not run locally without additional setup.
+
+You can view the working version here:
 
 https://grooming-booking.onrender.com/
 
