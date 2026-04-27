@@ -131,6 +131,3 @@ DELETE /appointments/{token}        → cancel appointment via token
 * SMS notifications
 * Payment integration
 
-
-
-My project demonstrates a complete appointment booking workflow, from reservation to cancellation, with a focus on usability, data integrity, and clean backend architecture. The inclusion of token-based cancellation and UUID identifiers adds a practical layer of security while keeping the system simple for end users.
