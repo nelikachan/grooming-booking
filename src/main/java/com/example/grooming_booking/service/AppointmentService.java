@@ -1,18 +1,19 @@
 package com.example.grooming_booking.service;
-
+import com.example.grooming_booking.enums.AppointmentStatus;
 import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.entity.Customer;
 import com.example.grooming_booking.entity.GroomingService;
 import com.example.grooming_booking.repository.AppointmentRepository;
 import com.example.grooming_booking.repository.CustomerRepository;
 import com.example.grooming_booking.repository.ServiceRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
-
+import com.example.grooming_booking.enums.AppointmentStatus;
 @Service
 public class AppointmentService {
     @Value("${app.base-url}")
@@ -40,8 +41,9 @@ public class AppointmentService {
             String email,
             String phone,
             LocalDate date,
-            LocalTime time
-    ) {
+            LocalTime time,
+            String comment
+    ) throws MessagingException {
         if (date.isBefore(LocalDate.now()) ||
                 (date.equals(LocalDate.now()) && time.isBefore(LocalTime.now()))) {
 
@@ -70,6 +72,8 @@ public class AppointmentService {
         appointment.setCustomer(customer);
         appointment.setDate(date);
         appointment.setTime(time);
+        appointment.setStatus(AppointmentStatus.PENDING);
+        appointment.setComment(comment);
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
         String token = savedAppointment.getConfirmationToken();
@@ -168,4 +172,18 @@ public class AppointmentService {
         return appointmentRepository.findByConfirmationToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
     }
-}
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepository.findAllByOrderByDateAscTimeAsc();
+    }
+
+    public Appointment updateStatus(UUID id, AppointmentStatus status) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appointment.setStatus(status);
+        return appointmentRepository.save(appointment);
+    }
+    public List<Appointment> getAppointmentsByMonth(int year, int month) {
+        return appointmentRepository.findByYearAndMonth(year, month);
+    }
+    }
+

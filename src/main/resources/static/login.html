@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                    135deg,
+                    #fdf8f5,
+                    #f8ebe8
+            );
+
+            font-family: Arial, sans-serif;
+        }
+
+        .login-card {
+
+            width: 420px;
+
+            background: white;
+
+            padding: 45px;
+
+            border-radius: 28px;
+
+            box-shadow:
+                    0 10px 40px rgba(0,0,0,0.08);
+
+            text-align: center;
+
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 34px;
+        }
+
+        p {
+            color: #999;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 15px;
+
+            margin-bottom: 18px;
+
+            border-radius: 14px;
+
+            border: 1px solid #e7dede;
+
+            font-size: 16px;
+
+            transition: 0.2s;
+
+            outline: none;
+        }
+
+        input:focus {
+
+            border-color: #f28fa2;
+
+            box-shadow:
+                    0 0 0 4px rgba(242,143,162,0.15);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+
+            position: absolute;
+
+            right: 15px;
+            top: 16px;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            color: #999;
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background: linear-gradient(
+                    135deg,
+                    #f28fa2,
+                    #e36f87
+            );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                    0 8px 20px rgba(227,111,135,0.35);
+        }
+
+        .error {
+
+            background: #ffe3e6;
+
+            color: #b4233c;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="login-card">
+
+    <h1>Admin</h1>
+
+    <p>Salon Groomerski Łapka & Nożyczki</p>
+
+
+    <div
+            class="error"
+            id="error-message"
+            style="display:none;"
+    >
+        Invalid login or password
+    </div>
+
+    <form method="post" action="/login">
+
+        <input
+                type="text"
+                name="username"
+                placeholder="Login"
+                required
+        >
+
+        <div class="password-wrapper">
+
+            <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    required
+            >
+
+            <span
+                    class="toggle-password"
+                    onclick="togglePassword()"
+            >
+                👁
+            </span>
+
+        </div>
+
+        <button type="submit">
+            Sign In
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+        } else {
+
+            password.type = "password";
+        }
+    }
+
+    // show error if login failed
+    const params =
+        new URLSearchParams(window.location.search);
+
+    if (params.has("error")) {
+
+        document
+            .getElementById("error-message")
+            .style.display = "block";
+    }
+
+</script>
+
+</body>
+</html>
+

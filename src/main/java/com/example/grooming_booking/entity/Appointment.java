@@ -1,5 +1,5 @@
 package com.example.grooming_booking.entity;
-
+import com.example.grooming_booking.enums.AppointmentStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -48,6 +48,15 @@ public class Appointment {
     public LocalTime getTime() {
         return time;
     }
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
 
     public GroomingService getService() {
         return service;
@@ -79,4 +88,16 @@ public class Appointment {
     public void setConfirmationToken(String confirmationToken) {
         this.confirmationToken = confirmationToken;
     }
+
+    @Column(length = 500)
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
 }

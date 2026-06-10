@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+            padding: 40px;
+
+            background:
+                    linear-gradient(
+                            135deg,
+                            #fdf8f5,
+                            #f8ebe8
+                    );
+
+            font-family: Arial, sans-serif;
+
+            color: #333;
+        }
+
+        h1 {
+
+            text-align: center;
+
+            margin-bottom: 40px;
+
+            font-size: 42px;
+        }
+
+        .date-section {
+
+            margin-bottom: 40px;
+        }
+
+        .date-title {
+
+            font-size: 26px;
+
+            margin-bottom: 20px;
+
+            color: #444;
+        }
+
+        .appointments-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                    repeat(auto-fill, minmax(350px, 1fr));
+
+            gap: 20px;
+        }
+
+        .appointment-card {
+
+            background: white;
+
+            border-radius: 24px;
+
+            padding: 24px;
+
+            box-shadow:
+                    0 10px 30px rgba(0,0,0,0.06);
+
+            transition: 0.2s;
+        }
+
+        .appointment-card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                    0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .time {
+
+            font-size: 30px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+            color: #e36f87;
+        }
+
+        .client {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .service {
+
+            color: #777;
+
+            margin-bottom: 15px;
+
+            line-height: 1.5;
+        }
+
+        .info {
+
+            margin-bottom: 8px;
+
+            color: #555;
+        }
+
+        .status {
+
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-top: 10px;
+        }
+
+        .pending {
+
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .completed {
+
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .cancelled {
+
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .actions {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+        button {
+
+            border: none;
+
+            padding: 12px 16px;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .delete-btn {
+
+            background: #ffe3e6;
+
+            color: #b4233c;
+        }
+
+        .delete-btn:hover {
+
+            background: #ffc9d1;
+        }
+
+        .complete-btn {
+
+            background: #d4edda;
+
+            color: #155724;
+        }
+
+        .complete-btn:hover {
+
+            background: #bde5c8;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>Appointments</h1>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="location.href='/logout'" class="delete-btn">Wyjdź</button>
+</div>
+
+<!-- ФИЛЬТР ПО МЕСЯЦАМ -->
+<div style="text-align: center; margin-bottom: 30px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+
+    <select id="monthSelect" style="padding: 10px 16px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px;">
+        <option value="1">Styczeń</option>
+        <option value="2">Luty</option>
+        <option value="3">Marzec</option>
+        <option value="4">Kwiecień</option>
+        <option value="5">Maj</option>
+        <option value="6">Czerwiec</option>
+        <option value="7">Lipiec</option>
+        <option value="8">Sierpień</option>
+        <option value="9">Wrzesień</option>
+        <option value="10">Październik</option>
+        <option value="11">Listopad</option>
+        <option value="12">Grudzień</option>
+    </select>
+
+    <input id="yearInput" type="number" value="2025"
+           style="padding: 10px 16px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; width: 100px;">
+
+    <button onclick="loadByMonth()"
+            style="padding: 10px 24px; border-radius: 12px; background: #e36f87; color: white; font-weight: bold; width: auto;">
+        Filtruj
+    </button>
+
+    <button onclick="loadAppointments()"
+            style="padding: 10px 24px; border-radius: 12px; background: #aaa; color: white; font-weight: bold; width: auto;">
+        Wszystkie
+    </button>
+
+</div>
+
+<div id="appointments-container"></div>
+
+<script>
+
+    const now = new Date();
+    document.getElementById("monthSelect").value = now.getMonth() + 1;
+    document.getElementById("yearInput").value = now.getFullYear();
+
+    function renderAppointments(appointments) {
+
+        const container = document.getElementById("appointments-container");
+        container.innerHTML = "";
+
+        const sorted = [
+            ...appointments.filter(a => a.status === "PENDING"),
+            ...appointments.filter(a => a.status !== "PENDING")
+        ];
+
+        const grouped = {};
+        sorted.forEach(a => {
+            if (!grouped[a.date]) grouped[a.date] = [];
+            grouped[a.date].push(a);
+        });
+
+        Object.keys(grouped).sort().forEach(date => {
+
+            const section = document.createElement("div");
+            section.className = "date-section";
+
+            const title = document.createElement("div");
+            title.className = "date-title";
+            title.innerHTML = date;
+            section.appendChild(title);
+
+            const grid = document.createElement("div");
+            grid.className = "appointments-grid";
+
+            grouped[date].forEach(a => {
+
+                let statusClass = "";
+                if (a.status === "PENDING") statusClass = "pending";
+                if (a.status === "COMPLETED") statusClass = "completed";
+                if (a.status === "CANCELLED") statusClass = "cancelled";
+
+                const card = document.createElement("div");
+                card.className = "appointment-card";
+
+                const commentHtml = a.comment
+                    ? `<div class="info" style="margin-top:10px; padding: 8px 12px; background:#fff8f9; border-left: 3px solid #e36f87; border-radius: 8px; font-style: italic;">
+                           💬 ${a.comment}
+                       </div>`
+                    : "";
+
+                card.innerHTML = `
+                    <div class="time">${a.time}</div>
+                    <div class="client">${a.customer.name}</div>
+                    <div class="service">${a.service.name}</div>
+                    <div class="info">${a.customer.email}</div>
+                    <div class="info">${a.customer.phone}</div>
+                    ${commentHtml}
+                    <div class="status ${statusClass}">${a.status}</div>
+                <div class="actions">
+                    <button class="delete-btn" onclick="deleteAppointment('${a.id}')">
+                    Delete
+                    </button>
+                    ${a.status === 'PENDING' ? `
+                    <button class="complete-btn" onclick="completeAppointment('${a.id}')">
+                    Complete
+                    </button>` : ''}
+                </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
+    }
+
+    async function loadAppointments() {
+        const res = await fetch("/appointments/all");
+        const appointments = await res.json();
+        renderAppointments(appointments);
+    }
+
+    async function loadByMonth() {
+        const month = document.getElementById("monthSelect").value;
+        const year = document.getElementById("yearInput").value;
+        const res = await fetch(`/appointments/by-month?year=${year}&month=${month}`);
+        const appointments = await res.json();
+        renderAppointments(appointments);
+    }
+
+    async function deleteAppointment(id) {
+        await fetch(`/appointments/${id}`, { method: "DELETE" });
+        loadAppointments();
+    }
+
+    loadAppointments();
+    async function completeAppointment(id) {
+    await fetch(`/appointments/${id}/status?status=COMPLETED`, {
+        method: "PATCH"
+    });
+    loadAppointments();
+}
+
+</script>
+</body>
+</html>
+

@@ -3,6 +3,10 @@ package com.example.grooming_booking.service;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
+
 
 @Service
 public class EmailService {
@@ -20,24 +24,31 @@ public class EmailService {
             String service,
             String cancelLink,
             String editLink
-    ) {
+    ) throws MessagingException {
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject("Potwierdzenie wizyty - Salon Groomerski Łapka & Nożyczki");
+        MimeMessage message = mailSender.createMimeMessage();
 
-        message.setText(
-                "Twoja wizyta została zarezerwowana.\n\n" +
-                        "Data: " + date + "\n" +
-                        "Godzina: " + time + "\n" +
-                        "Usługa: " + service + "\n\n" +
+        MimeMessageHelper helper =
+                new MimeMessageHelper(message, true, "UTF-8");
 
-                        "Zarządzaj wizytą:\n" +
-                        "Anuluj: " + cancelLink + "\n" +
-//                        "Zmień: " + editLink + "\n\n" +
+        helper.setTo(to);
+        helper.setSubject("Potwierdzenie wizyty - Salon Groomerski Łapka & Nożyczki");
 
-                        "Dziękujemy!"
-        );
+        String html =
+                "<html><body>" +
+                        "Twoja wizyta została zarezerwowana.<br><br>" +
+
+                        "Data: " + date + "<br>" +
+                        "Godzina: " + time + "<br>" +
+                        "Usługa: " + service + "<br><br>" +
+
+                        "Zarządzaj wizytą:<br>" +
+                        "<a href='" + cancelLink + "'>Anuluj wizytę</a><br><br>" +
+
+                        "Dziękujemy!" +
+                        "</body></html>";
+
+        helper.setText(html, true);
 
         mailSender.send(message);
     }

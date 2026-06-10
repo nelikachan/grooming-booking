@@ -3,6 +3,7 @@ package com.example.grooming_booking.controller;
 import com.example.grooming_booking.dto.CreateAppointmentRequest;
 import com.example.grooming_booking.entity.Appointment;
 import com.example.grooming_booking.service.AppointmentService;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,14 +24,15 @@ public class AppointmentController {
 
     @PostMapping
     @ResponseBody
-    public Appointment createAppointment(@RequestBody CreateAppointmentRequest request) {
+    public Appointment createAppointment(@RequestBody CreateAppointmentRequest request) throws MessagingException {
         return appointmentService.createAppointment(
                 request.getServiceId(),
                 request.getName(),
                 request.getEmail(),
                 request.getPhone(),
                 request.getDate(),
-                request.getTime()
+                request.getTime(),
+                request.getComment()
         );
     }
 
@@ -71,5 +73,20 @@ public class AppointmentController {
 
         return "redirect:/cancel.html";
     }
+    @GetMapping("/all")
+    @ResponseBody
 
-}
+    public List<Appointment> getAllAppointments() {
+        return appointmentService.getAllAppointments();
+    }
+    @GetMapping("/by-month")
+    @ResponseBody
+    public List<Appointment> getByMonth(
+            @RequestParam int year,
+            @RequestParam int month
+    ) {
+        return appointmentService.getAppointmentsByMonth(year, month);
+    }
+
+    }
+

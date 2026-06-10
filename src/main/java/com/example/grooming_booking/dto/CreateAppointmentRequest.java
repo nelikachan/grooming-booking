@@ -12,6 +12,7 @@ public class CreateAppointmentRequest {
     private String phone;
     private LocalDate date;
     private LocalTime time;
+    private String comment;
 
     public UUID getServiceId() { return serviceId; }
     public String getName() { return name; }
@@ -19,4 +20,5 @@ public class CreateAppointmentRequest {
     public String getPhone() { return phone; }
     public LocalDate getDate() { return date; }
     public LocalTime getTime() { return time; }
+    public String getComment() { return comment; }
 }
